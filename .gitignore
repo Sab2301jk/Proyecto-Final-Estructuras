@@ -1,0 +1,24 @@
+# Carpetas de compilación de CMake y builds locales
+cmake-build-*/
+build/
+out/
+
+# Configuración local de CLion
+.idea/
+*.iml
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Binarios y librerías sueltas
+*.exe
+*.out
+*.app
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
