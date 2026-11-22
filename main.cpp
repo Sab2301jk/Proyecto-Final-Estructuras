@@ -17,4 +17,3 @@ int main() {
 
 
 
-SANTIAGO ES RE GAY
