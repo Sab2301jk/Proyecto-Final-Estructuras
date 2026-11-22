@@ -3,8 +3,14 @@ project(proyectoFinalED)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(proyectoFinalED main.cpp
-        Paciente.cpp
-        Paciente.h
-        HistorialHash.cpp
-        HistorialHash.h)
+add_executable(proyectoFinalED
+                main.cpp
+                NodoCama.cpp
+                NodoCama.h
+                CamaCorredor.cpp
+                CamaCorredor.h
+                Paciente.cpp
+                Paciente.h
+                HistorialHash.cpp
+                HistorialHash.h
+)
