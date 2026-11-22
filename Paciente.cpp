@@ -78,7 +78,7 @@ bool Paciente::esCritico() const {
     }
 }
 bool Paciente::superoRiesgo() const {
-    return this->esCritico() && this-> contadorRiesgo > 6;
+    return this->esCritico() && contadorRiesgo > 6;
 
 }
 
