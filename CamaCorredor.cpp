@@ -1,3 +1,7 @@
+//
+// Created by saria on 23/11/2026.
+//
+
 #include "CamaCorredor.h"
 #include "Paciente.h"
 #include <iostream>
@@ -6,15 +10,13 @@ using namespace std;
 CamaCorredor::CamaCorredor() {
     primera = new NodoCama(1);
     NodoCama* prev = primera;
-    for (int numero = 1; numero <= 10; numero++) {
+    for (int numero = 2; numero <= 10; numero++) {
         NodoCama* nueva = new NodoCama(numero);
         prev->setNext(nueva);
         nueva->setPrev(prev);
         prev = nueva;
     }
     medicoPosicion = primera;
-
-
 }
 
 NodoCama* CamaCorredor::getMedicoPosicion() const {
@@ -64,8 +66,8 @@ void CamaCorredor::imprimirSala() {
             cout << "V ";
         }else {
             cout << "P" << camaAux->getPacienteActual()->getGravedad();
-            cout << "]";
         }
+        cout << "]";
         if (camaAux->getNext() != nullptr) {
             cout << "=";
         }
@@ -78,5 +80,4 @@ void CamaCorredor::imprimirSala() {
         cout << " ";
     }
     cout << "M\n";
-};
-
+}

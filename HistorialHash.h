@@ -1,6 +1,9 @@
+//
+// Created by Ivan David Fernandez Salguero on 21/11/26.
+//
 
-#ifndef PROYECTOFINALED_HISTORIALHASH_H
-#define PROYECTOFINALED_HISTORIALHASH_H
+#ifndef PROYECTO_FINAL_URGENCIAS_HISTORIALHASH_H
+#define PROYECTO_FINAL_URGENCIAS_HISTORIALHASH_H
 
 #include <iostream>
 #include <string>
@@ -20,17 +23,14 @@ public:
     }
 };
 class HistorialHash {
-
 private:
-
     std::vector<NodoHash*>  cubetas;
 
     int cantidad;
 
     unsigned long funcionHash(string cedula) const;
 
-    public:
-
+public:
     HistorialHash(int numCubetas);
     ~HistorialHash();
 
@@ -38,14 +38,10 @@ private:
 
     void guardarOActualizar(Paciente p);
 
-
     void consultarPorCedula(string cedula) const;
 
     void auditarPerdidos();
 
     int totalPacientes() const;
-
 };
-
-
-#endif //PROYECTOFINALED_HISTORIALHASH_H
+#endif //PROYECTO_FINAL_URGENCIAS_HISTORIALHASH_H

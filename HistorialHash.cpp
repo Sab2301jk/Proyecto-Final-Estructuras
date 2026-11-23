@@ -3,13 +3,8 @@
 //
 
 #include "HistorialHash.h"
-
-
-
 HistorialHash::HistorialHash(int numCubetas) {
-
     for (int i = 0; i < numCubetas; i++) {
-
         cubetas.push_back(nullptr);
     }
     cantidad = 0;
@@ -23,11 +18,8 @@ HistorialHash::~HistorialHash() {
             delete actual;
             actual = nuevo;
         }
-
-
     }
 }
-
 
 unsigned long HistorialHash::funcionHash(string cedula) const {
     unsigned long h = 0;
@@ -48,19 +40,11 @@ Paciente* HistorialHash::buscar(string cedula) const {
     return &(actual->dato);
 }
 
-
-
-
-
-
-
 void HistorialHash::guardarOActualizar(Paciente p) {
     Paciente* existe = buscar(p.getCedula());
 
     if (existe != nullptr) {
-
         *existe = p;
-
     }
     else{
         unsigned long indice = funcionHash(p.getCedula());
@@ -71,20 +55,13 @@ void HistorialHash::guardarOActualizar(Paciente p) {
         cubetas[indice] = nuevo;
 
         cantidad++;
-
-
-
-
     }
-
-
 }
 
 void HistorialHash::consultarPorCedula(string cedula) const {
         Paciente* p = buscar(cedula);
 
     if (p == nullptr) {
-
         std::cout<<"Esta cedula no existe"<<std::endl;
     }
     else {
@@ -97,8 +74,6 @@ void HistorialHash::consultarPorCedula(string cedula) const {
         std::cout << "  Tiempo de espera: "<< p->getEsperaAcumulada()<< std::endl;
     }
 }
-
-
 
 void HistorialHash::auditarPerdidos() {
     int perdidos = 0;
@@ -120,10 +95,8 @@ void HistorialHash::auditarPerdidos() {
     std::cout << "Total de pacientes perdidos: " << perdidos << std::endl;
 }
 
-
 int HistorialHash::totalPacientes() const {
     int total = 0;
-
 
     for (int i = 0; i < cubetas.size(); i++) {
         NodoHash* actual = cubetas[i];
@@ -131,7 +104,6 @@ int HistorialHash::totalPacientes() const {
             total++;
             actual = actual->next;
         }
-
     }
     std::cout << "Total de pacientes "<<total<<std::endl;
     return total;

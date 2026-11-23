@@ -4,10 +4,7 @@
 
 #include "Paciente.h"
 
-
-
 Paciente::Paciente() {
-
     this->cedula = "";
     this->nombre = "";
     this->gravedad = 5;
@@ -18,8 +15,8 @@ Paciente::Paciente() {
     this->contadorRiesgo = 0;
     this->estado = "En cola";
     this->medicoAsociado = "Sin asignar";
+    this->ordenLlegada = 0;
 }
-
 
 Paciente::Paciente(string cedula, string nombre, int gravedad, string condicion, int turnoLlegada) {
     this->cedula = cedula;
@@ -32,6 +29,7 @@ Paciente::Paciente(string cedula, string nombre, int gravedad, string condicion,
     this->contadorRiesgo = 0;
     this->estado = "En cola";
     this->medicoAsociado = "Sin asignar";
+    this->ordenLlegada = 0;
 }
 
 string Paciente::getCedula() const {
@@ -65,10 +63,16 @@ int Paciente::getEsperaAcumulada() const {
 int Paciente::getContadorRiesgo() const {
     return this->contadorRiesgo;
 }
+int Paciente::getOrdenLlegada() const {
+    return this->ordenLlegada;
+}
 int Paciente::turnosTratamientoRequeridos() const {
     return 6-gravedad;
 }
 
+void Paciente::setOrdenLlegada(int orden) {
+    this->ordenLlegada = orden;
+}
 
 bool Paciente::esCritico() const {
     if (gravedad == 1) {
@@ -79,7 +83,6 @@ bool Paciente::esCritico() const {
 }
 bool Paciente::superoRiesgo() const {
     return this->esCritico() && contadorRiesgo > 6;
-
 }
 
 void Paciente::avanzarEnCola() {
@@ -93,7 +96,6 @@ void Paciente::IniciarTratamiento(string medico) {
     medicoAsociado = medico;
 }
 void Paciente::darAlta(int turno) {
-
     estado = "Alta";
     turnoAlta = turno;
 }

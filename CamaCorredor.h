@@ -1,25 +1,25 @@
-#ifndef CAMACORREDOR_H
-#define CAMACORREDOR_H
+//
+// Created by saria on 23/11/2026.
+//
+
+#ifndef PROYECTO_FINAL_URGENCIAS_CAMACORREDOR_H
+#define PROYECTO_FINAL_URGENCIAS_CAMACORREDOR_H
 
 #include "NodoCama.h"
 
 class CamaCorredor {
 private:
-    NodoCama* primera;      //primera cama o la cabeza de la lista
+    NodoCama* primera;
     NodoCama* medicoPosicion;
 
 public:
     CamaCorredor();
-
-    NodoCama *getMedicoPosicion();
 
     NodoCama* getMedicoPosicion() const;
     bool moverIzquierda();
     bool moverDerecha();
     int contarCamasVacias() const;
     void imprimirSala();
-
 };
 
-
-#endif //CAMACORREDOR_H
+#endif //PROYECTO_FINAL_URGENCIAS_CAMACORREDOR_H
