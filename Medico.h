@@ -6,7 +6,6 @@
 #define PROYECTO_FINAL_URGENCIAS_MEDICO_H
 
 #include <string>
-#include <vector>
 #include "Paciente.h"
 
 using namespace std;
@@ -16,10 +15,17 @@ struct NodoPila {
     NodoPila* siguiente;
 };
 
+struct NodoJornada {
+    int turnos;
+    NodoJornada* siguiente;
+};
+
 class Medico {
 private:
     NodoPila* topePila;
-    vector<int> jornadas;
+    NodoJornada* primeraJornada;
+    NodoJornada* ultimaJornada;
+    int totalJornadas;
     int turnosActuales;
 
 public:

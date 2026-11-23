@@ -10,6 +10,9 @@ using namespace std;
 Medico::Medico(string nombreMedico) {
     nombre = nombreMedico;
     topePila = nullptr;
+    primeraJornada = nullptr;
+    ultimaJornada = nullptr;
+    totalJornadas = 0;
     turnosActuales = 0;
 }
 
@@ -18,7 +21,16 @@ void Medico::sumarTurno() {
 }
 
 void Medico::guardarJornada() {
-    jornadas.push_back(turnosActuales);
+    NodoJornada* nuevaJornada = new NodoJornada();
+    nuevaJornada->turnos = turnosActuales;
+    nuevaJornada->siguiente = nullptr;
+    if (primeraJornada == nullptr) {
+        primeraJornada = nuevaJornada;
+    } else {
+        ultimaJornada->siguiente = nuevaJornada;
+    }
+    ultimaJornada = nuevaJornada;
+    totalJornadas = totalJornadas + 1;
     turnosActuales = 0;
     topePila = nullptr;
 }
@@ -51,13 +63,15 @@ void Medico::mostrarUltimosAtendidos() {
 }
 
 void Medico::mostrarJornadas() {
-    int totalJornadas = jornadas.size();
-
     cout << "Medico: " << nombre << endl;
     cout << "Jornadas cerradas: " << totalJornadas << endl;
 
-    for (int i = 0; i < totalJornadas; i++) {
-        cout << "Jornada " << (i + 1) << ": " << jornadas[i] << " turnos" << endl;
+    NodoJornada* jornadaActual = primeraJornada;
+    int numero = 1;
+    while (jornadaActual != nullptr) {
+        cout << "Jornada " << numero << ": " << jornadaActual->turnos << " turnos" << endl;
+        jornadaActual = jornadaActual->siguiente;
+        numero = numero + 1;
     }
 
     if (turnosActuales > 0) {

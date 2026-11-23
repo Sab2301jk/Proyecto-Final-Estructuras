@@ -25,9 +25,16 @@ struct Prioridad {
     }
 };
 
+struct NodoMedico {
+    Medico* medico;
+    NodoMedico* siguiente;
+};
+
 class Simulador {
 private:
-    vector<Medico*> medicos;
+    NodoMedico* primerMedico;
+    NodoMedico* ultimoMedico;
+    int totalMedicos;
     Medico* medicoActual;
     CamaCorredor corredor;
     HistorialHash historial;
@@ -41,6 +48,7 @@ private:
     int totalPerdidos;
     double sumaMinutosEspera;
     Medico* buscarMedico(string nombreMedico);
+    void agregarMedico(Medico* medico);
 
 public:
     Simulador(string nombreMedico, int topeTurnos);
@@ -49,7 +57,6 @@ public:
     void pasarTurno();
     void finalizarJornada();
     void cambiarMedico(string nombreNuevoMedico);
-
     bool retrocederCama();
     bool avanzarCama();
     bool pasarPacienteACama();

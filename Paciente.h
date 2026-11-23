@@ -24,13 +24,11 @@ private:
 public:
     Paciente();
     Paciente(string cedula, string nombre, int gravedad, string condicion, int turnoLlegada);
-
     string getCedula() const;
     string getNombre() const;
     string getCondicion() const;
     string getEstado() const;
     string getMedicoAsociado() const;
-
     int getGravedad() const;
     int getTurnoLlegada() const;
     int getTurnoAlta() const;
@@ -38,12 +36,9 @@ public:
     int getContadorRiesgo() const;
     int getOrdenLlegada() const;
     int turnosTratamientoRequeridos() const;
-
     void setOrdenLlegada(int orden);
-
     bool esCritico() const;
     bool superoRiesgo() const;
-
     void avanzarEnCola();
     void IniciarTratamiento(string medico);
     void darAlta(int turno);

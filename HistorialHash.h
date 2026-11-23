@@ -7,7 +7,6 @@
 
 #include <iostream>
 #include <string>
-#include <vector>
 #include "Paciente.h"
 
 using std::string;
@@ -22,13 +21,26 @@ public:
         this->next= nullptr;
     }
 };
+
+// Cada cubeta es un nodo de una lista enlazada que guarda el inicio de su cadena de colisiones
+class NodoCubeta {
+public:
+    NodoHash* cabeza;
+    NodoCubeta* siguiente;
+
+    NodoCubeta() {
+        this->cabeza = nullptr;
+        this->siguiente = nullptr;
+    }
+};
+
 class HistorialHash {
 private:
-    std::vector<NodoHash*>  cubetas;
-
-    int cantidad;
+    NodoCubeta* primeraCubeta;
+    int numCubetas;
 
     unsigned long funcionHash(string cedula) const;
+    NodoCubeta* obtenerCubeta(unsigned long indice) const;
 
 public:
     HistorialHash(int numCubetas);
@@ -41,7 +53,5 @@ public:
     void consultarPorCedula(string cedula) const;
 
     void auditarPerdidos();
-
-    int totalPacientes() const;
 };
 #endif //PROYECTO_FINAL_URGENCIAS_HISTORIALHASH_H

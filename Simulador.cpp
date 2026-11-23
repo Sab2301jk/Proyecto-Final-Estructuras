@@ -9,7 +9,10 @@ using namespace std;
 
 Simulador::Simulador(string nombreMedico, int topeTurnos) : historial(50) {
   medicoActual = new Medico(nombreMedico);
-  medicos.push_back(medicoActual);
+  primerMedico = nullptr;
+  ultimoMedico = nullptr;
+  totalMedicos = 0;
+  agregarMedico(medicoActual);
   turnoGlobal = 0;
   turnosJornada = 0;
   topeJornada = topeTurnos;
@@ -21,11 +24,25 @@ Simulador::Simulador(string nombreMedico, int topeTurnos) : historial(50) {
 }
 
 Medico* Simulador::buscarMedico(string nombreMedico) {
-  int totalMedicos = medicos.size();
-  for (int i = 0; i < totalMedicos; i++) {
-    if (medicos[i]->nombre == nombreMedico) return medicos[i];
+  NodoMedico* nodoActual = primerMedico;
+  while (nodoActual != nullptr) {
+    if (nodoActual->medico->nombre == nombreMedico) return nodoActual->medico;
+    nodoActual = nodoActual->siguiente;
   }
   return nullptr;
+}
+
+void Simulador::agregarMedico(Medico* medico) {
+  NodoMedico* nuevoNodo = new NodoMedico();
+  nuevoNodo->medico = medico;
+  nuevoNodo->siguiente = nullptr;
+  if (primerMedico == nullptr) {
+    primerMedico = nuevoNodo;
+  } else {
+    ultimoMedico->siguiente = nuevoNodo;
+  }
+  ultimoMedico = nuevoNodo;
+  totalMedicos++;
 }
 
 bool Simulador::jornadaTerminada() {
@@ -81,7 +98,7 @@ void Simulador::cambiarMedico(string nombreNuevoMedico) {
   medicoActual = buscarMedico(nombreNuevoMedico);
   if (medicoActual == nullptr) {
     medicoActual = new Medico(nombreNuevoMedico);
-    medicos.push_back(medicoActual);
+    agregarMedico(medicoActual);
   }
   while (corredor.moverIzquierda()) {}
   turnosJornada = 0;
@@ -172,20 +189,25 @@ void Simulador::mostrarEstado() {
   }
   cout << endl;
 
-  vector<int> cantidad(6, 0);
+  int cantidadG1 = 0, cantidadG2 = 0, cantidadG3 = 0, cantidadG4 = 0, cantidadG5 = 0;
   int mayorRiesgo = 0;
   priority_queue<Paciente*, vector<Paciente*>, Prioridad> copiaCola = colaTriage;
   while (!copiaCola.empty()) {
     Paciente* pacienteEnEspera = copiaCola.top();
     copiaCola.pop();
-    cantidad[pacienteEnEspera->getGravedad()]++;
+    switch (pacienteEnEspera->getGravedad()) {
+      case 1: cantidadG1++; break;
+      case 2: cantidadG2++; break;
+      case 3: cantidadG3++; break;
+      case 4: cantidadG4++; break;
+      case 5: cantidadG5++; break;
+    }
     if (pacienteEnEspera->getContadorRiesgo() > mayorRiesgo) mayorRiesgo = pacienteEnEspera->getContadorRiesgo();
   }
 
   cout << "Cola por gravedad -> ";
-  for (int gravedad = 1; gravedad <= 5; gravedad++) {
-    cout << "G" << gravedad << ": " << cantidad[gravedad] << "  ";
-  }
+  cout << "G1: " << cantidadG1 << "  G2: " << cantidadG2 << "  G3: " << cantidadG3
+       << "  G4: " << cantidadG4 << "  G5: " << cantidadG5 << "  ";
   cout << endl;
   if (mayorRiesgo >= 3) cout << "ALERTA: paciente critico en riesgo (" << mayorRiesgo << "/6)" << endl;
 }
@@ -200,7 +222,7 @@ void Simulador::mostrarReporte() {
   cout << "Pacientes perdidos: " << totalPerdidos << endl;
   cout << "Tiempo promedio de espera: " << promedioEspera << " min" << endl;
   cout << "Camas desocupadas: " << corredor.contarCamasVacias() << endl;
-  cout << "Cantidad de medicos: " << medicos.size() << endl;
+  cout << "Cantidad de medicos: " << totalMedicos << endl;
   cout << "Turnos usados: " << turnosJornada << "/" << topeJornada << endl;
 }
 
