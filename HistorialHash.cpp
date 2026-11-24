@@ -103,7 +103,7 @@ void HistorialHash::auditarPerdidos() {
         while (actual != nullptr) {
             if (actual->dato.getEstado() == "Perdido") {
                 std::cout << "  - " << actual->dato.getNombre()
-                        << " (cc " << actual->dato.getCedula() << ") - "
+                        << " (cédula " << actual->dato.getCedula() << ") - "
                         << actual->dato.getMedicoAsociado() << std::endl;
                 perdidos++;
             }
