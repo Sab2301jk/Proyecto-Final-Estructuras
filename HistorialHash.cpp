@@ -3,54 +3,41 @@
 //
 
 #include "HistorialHash.h"
+
+
+
 HistorialHash::HistorialHash(int numCubetas) {
-    this->numCubetas = numCubetas;
-    primeraCubeta = nullptr;
-    NodoCubeta* ultima = nullptr;
+
     for (int i = 0; i < numCubetas; i++) {
-        NodoCubeta* nueva = new NodoCubeta();
-        if (primeraCubeta == nullptr) {
-            primeraCubeta = nueva;
-        } else {
-            ultima->siguiente = nueva;
-        }
-        ultima = nueva;
+
+        cubetas.push_back(nullptr);
     }
 }
 HistorialHash::~HistorialHash() {
-    NodoCubeta* cubeta = primeraCubeta;
-    while (cubeta != nullptr) {
-        NodoHash* actual = cubeta->cabeza;
+    for ( int i = 0; i < cubetas.size(); i++) {
+        NodoHash* actual = cubetas[i];
 
         while (actual!=nullptr) {
             NodoHash* nuevo = actual->next;
             delete actual;
             actual = nuevo;
         }
-        NodoCubeta* siguienteCubeta = cubeta->siguiente;
-        delete cubeta;
-        cubeta = siguienteCubeta;
+
+
     }
 }
+
 
 unsigned long HistorialHash::funcionHash(string cedula) const {
     unsigned long h = 0;
-    for (std::size_t i = 0; i < cedula.size(); i++) {
+    for (int i = 0; i < cedula.size(); i++) {
         h = h * 31 +cedula[i];
     }
-    return h % numCubetas;
-}
-
-NodoCubeta* HistorialHash::obtenerCubeta(unsigned long indice) const {
-    NodoCubeta* cubeta = primeraCubeta;
-    for (unsigned long i = 0; i < indice; i++) {
-        cubeta = cubeta->siguiente;
-    }
-    return cubeta;
+    return h % cubetas.size();
 }
 
 Paciente* HistorialHash::buscar(string cedula) const {
-    NodoHash* actual = obtenerCubeta(funcionHash(cedula))->cabeza;
+    NodoHash* actual = cubetas[funcionHash(cedula)];
     while (actual != nullptr && actual->dato.getCedula() != cedula) {
         actual = actual->next;
     }
@@ -60,26 +47,41 @@ Paciente* HistorialHash::buscar(string cedula) const {
     return &(actual->dato);
 }
 
+
+
+
+
+
+
 void HistorialHash::guardarOActualizar(Paciente p) {
     Paciente* existe = buscar(p.getCedula());
 
     if (existe != nullptr) {
+
         *existe = p;
+
     }
     else{
-        NodoCubeta* cubeta = obtenerCubeta(funcionHash(p.getCedula()));
+        unsigned long indice = funcionHash(p.getCedula());
 
         NodoHash* nuevo = new NodoHash(p);
 
-        nuevo->next = cubeta->cabeza;
-        cubeta->cabeza = nuevo;
+        nuevo->next = cubetas[indice];
+        cubetas[indice] = nuevo;
+
+
+
+
     }
+
+
 }
 
 void HistorialHash::consultarPorCedula(string cedula) const {
         Paciente* p = buscar(cedula);
 
     if (p == nullptr) {
+
         std::cout<<"Esta cedula no existe"<<std::endl;
     }
     else {
@@ -93,13 +95,14 @@ void HistorialHash::consultarPorCedula(string cedula) const {
     }
 }
 
+
+
 void HistorialHash::auditarPerdidos() {
     int perdidos = 0;
     std::cout << "Auditoria de pacientes perdidos:" << std::endl;
 
-    NodoCubeta* cubeta = primeraCubeta;
-    while (cubeta != nullptr) {
-        NodoHash* actual = cubeta->cabeza;
+    for (std::size_t i = 0; i < cubetas.size(); i++) {
+        NodoHash* actual = cubetas[i];
         while (actual != nullptr) {
             if (actual->dato.getEstado() == "Perdido") {
                 std::cout << "  - " << actual->dato.getNombre()
@@ -109,7 +112,6 @@ void HistorialHash::auditarPerdidos() {
             }
             actual = actual->next;
         }
-        cubeta = cubeta->siguiente;
     }
 
     std::cout << "Total de pacientes perdidos: " << perdidos << std::endl;
